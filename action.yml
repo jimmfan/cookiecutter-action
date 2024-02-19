@@ -26,6 +26,7 @@ runs:
 
     - name: Create temp directory
       run: mkdir temp_action_dir
+      shell: bash      
 
     - name: Create Context File from JSON String
       working-directory: temp_action_dir
