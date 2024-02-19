@@ -29,12 +29,10 @@ runs:
       shell: bash      
 
     - name: Create Context File from JSON String
-      working-directory: temp_action_dir
       run: echo '${{ inputs.template_variables_json }}' > context.json
       shell: bash
 
     - name: Download Python Script
-      working-directory: temp_action_dir
       run: wget https://raw.githubusercontent.com/jimmfan/cookiecutter-action/main/generate_template.py
       shell: bash      
 
@@ -49,7 +47,8 @@ runs:
 
     - name: Clean up
       run: |
-        rm -rf temp_action_dir
+        rm context.json
+        rm generate_template.py
       shell: bash
       
     - name: List files
