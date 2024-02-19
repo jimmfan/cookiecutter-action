@@ -34,9 +34,8 @@ runs:
       shell: bash
 
     - name: Set TEMPLATE_VARIABLES_JSON
-      id: set_template_vars
       run: |
-        content=$(cat ${{ inputs.template_json_variables }} | jq -c .)
+        content=$(jq -c @json ${{ inputs.template_json_variables }})
         echo "TEMPLATE_JSON_VARIABLES=$content" >> $GITHUB_ENV
       shell: bash
 
