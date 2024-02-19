@@ -4,9 +4,7 @@ import sys
 from cookiecutter.main import cookiecutter
 
 # Load JSON context from a file
-with open('context.json', 'r') as file:
-    extra_context = json.load(file)
-
+extra_context = json.loads(os.getenv('TEMPLATE_JSON_VARIABLES', '{}')) 
 template_repo_url = os.getenv('TEMPLATE_REPO_URL')
 template_directory = os.getenv('TEMPLATE_DIRECTORY', '.')  # Default to '.'
 output_directory = os.getenv('OUTPUT_DIRECTORY', '.')  # Default to '.'

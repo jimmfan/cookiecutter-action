@@ -1,15 +1,15 @@
 name: 'Cookiecutter Action'
 description: 'Generates a project structure from a Cookiecutter template using dynamic inputs'
 inputs:
+  template_json_variables:
+    description: 'JSON string containing all the template variables'
+    required: true
   template_repo_url:
     description: 'Cookiecutter template git repository URL'
     required: true
-  template_variables_json:
-    description: 'JSON string containing all the template variables'
-    required: true
   template_directory:
     description: 'Relative path within the repository to the template directory'
-    required: false
+    required: true
   output_directory:
     description: 'Output directory for the generated project'
     required: false
@@ -28,23 +28,25 @@ runs:
       run: mkdir temp_action_dir
       shell: bash      
 
-    - name: Create Context File from JSON String
-      working-directory: temp_action_dir
-      run: echo '${{ inputs.template_variables_json }}' > context.json
-      shell: bash
-
     - name: Download Python Script
       working-directory: temp_action_dir
       run: wget https://raw.githubusercontent.com/jimmfan/cookiecutter-action/main/generate_template.py
-      shell: bash      
+      shell: bash
+
+    - name: Set TEMPLATE_VARIABLES_JSON
+      id: set_template_vars
+      run: |
+        content=$(cat ${{ inputs.template_json_variables }} | jq -c .)
+        echo "TEMPLATE_JSON_VARIABLES=$content" >> $GITHUB_ENV
+      shell: bash
 
     - name: Generate Project with Cookiecutter
       working-directory: temp_action_dir
       run: python3 generate_template.py
       shell: bash
       env:
+        TEMPLATE_JSON_VARIABLES: ${{ env.TEMPLATE_JSON_VARIABLES }}
         TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
-        TEMPLATE_VARIABLES_JSON: ${{ inputs.template_variables_json }}
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
         OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
 
