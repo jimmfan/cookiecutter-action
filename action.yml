@@ -24,23 +24,36 @@ runs:
       run: python3 -m pip install cookiecutter
       shell: bash
 
-    - name: Download Python Script
-      run: wget https://raw.githubusercontent.com/jimmfan/cookiecutter-action/main/generate_template.py
+    - name: Create Context File from JSON String
+      run: echo '${{ inputs.template_variables_json }}' > context.json
+      shell: bash
+
+    - name: Generate Project
+      run: |
+        if [ -z "${{ inputs.template_directory }}" ]; then
+          cookiecutter --no-input --output-dir ${{ inputs.output_directory }} ${{ inputs.template_repo_url }} -c context.json
+        else
+          cookiecutter --no-input --output-dir ${{ inputs.output_directory }} --directory ${{ inputs.template_directory }} ${{ inputs.template_repo_url }} -c context.json
+        fi
       shell: bash      
 
-    - name: Generate Project with Cookiecutter
-      run: python3 generate_template.py
-      shell: bash
-      env:
-        TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
-        TEMPLATE_VARIABLES_JSON: ${{ inputs.template_variables_json }}
-        TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
-        OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
+    # - name: Download Python Script
+    #   run: wget https://raw.githubusercontent.com/jimmfan/cookiecutter-action/main/generate_template.py
+    #   shell: bash      
 
-    - name: Remove Python Script
-      run: rm generate_template.py
-      shell: bash
+    # - name: Generate Project with Cookiecutter
+    #   run: python3 generate_template.py
+    #   shell: bash
+    #   env:
+    #     TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
+    #     TEMPLATE_VARIABLES_JSON: ${{ inputs.template_variables_json }}
+    #     TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
+    #     OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
+
+    # - name: Remove Python Script
+    #   run: rm generate_template.py
+    #   shell: bash
       
-    - name: List files
-      run: ls -R
-      shell: bash      
+    # - name: List files
+    #   run: ls -R
+    #   shell: bash      
