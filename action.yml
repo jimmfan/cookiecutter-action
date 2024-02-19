@@ -50,6 +50,7 @@ runs:
 
     - name: Cleanup files
       run: |
+        rm -rf .github/
         PROJECT_NAME=$(echo '${{ github.event.inputs.template_variables_json }}' | jq -r '.project_name')
         rsync -av --ignore-existing $PROJECT_NAME/.github/ .github/
         shopt -s dotglob
