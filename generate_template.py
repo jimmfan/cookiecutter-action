@@ -9,6 +9,10 @@ def main():
     output_directory = os.getenv('OUTPUT_DIRECTORY', '.')  # Default to '.'
     template_variables = json.loads(template_variables_json)
 
+    print(type(template_variables))  # Should be <class 'dict'>
+    print(template_variables)
+    print(template_variables['project_name'])  # Test access
+
     command = ['cookiecutter', '--no-input', '--output-dir', output_directory]
     if template_directory != '.':
         command += ['--directory', template_directory]
