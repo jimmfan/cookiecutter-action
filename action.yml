@@ -48,7 +48,7 @@ runs:
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
         OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
 
-    - name: Cleanup files
+    - name: Unpack to root directory and cleanup files
       run: |
         rm -rf .github/
         PROJECT_NAME=$(echo '${{ github.event.inputs.template_variables_json }}' | jq -r '.project_name')
@@ -56,8 +56,4 @@ runs:
         mv temp_action_dir/$PROJECT_NAME/* .
         shopt -u dotglob
         rm -rf temp_action_dir
-      shell: bash          
-      
-    - name: List files
-      run: ls -R
-      shell: bash      
+      shell: bash
