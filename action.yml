@@ -24,6 +24,9 @@ runs:
       run: python3 -m pip install cookiecutter
       shell: bash
 
+    - name: Download Python Script
+      run: wget https://raw.githubusercontent.com/jimmfan/cookiecutter-action/main/generate_template.py
+
     - name: Generate Project with Cookiecutter
       run: python3 generate_template.py
       shell: bash
