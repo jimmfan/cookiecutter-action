@@ -1,0 +1,34 @@
+name: 'Cookiecutter Action'
+description: 'Generates a project structure from a Cookiecutter template using dynamic inputs'
+inputs:
+  template_repo_url:
+    description: 'Cookiecutter template git repository URL'
+    required: true
+  template_variables_json:
+    description: 'JSON string containing all the template variables'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Dependencies
+      run: python3 -m pip install cookiecutter
+      shell: bash
+
+    - name: Generate Project with Cookiecutter
+      run: python3 -m ./generate_template.py
+      shell: bash
+      env:
+        TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
+        TEMPLATE_VARIABLES_JSON: ${{ inputs.template_variables_json }}
+      
+#     - name: Generate Project Template
+#       run: |
+#         TEMPLATE_PATH="${{ github.workspace }}/github-actions-cookiecutter-ml/${{ github.event.inputs.template_path }}"
+#         python3 ./github-actions-cookiecutter-ml/generate_template.py \
+#         --project_name="${{ github.event.inputs.project_name }}" \
+#         --author="${{ github.event.inputs.author }}" \
+#         --email="${{ github.event.inputs.email }}" \
+#         --python_version="${{ github.event.inputs.python_version }}" \
+#         --output_dir="${{ github.event.inputs.output_dir }}"
+#       shell: bash
