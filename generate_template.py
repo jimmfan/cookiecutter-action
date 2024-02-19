@@ -1,25 +1,21 @@
 import os
 import json
-import subprocess
+import sys
+from cookiecutter.main import cookiecutter
 
-def main():
-    template_repo_url = os.getenv('TEMPLATE_REPO_URL')
-    template_variables_json = os.getenv('TEMPLATE_VARIABLES_JSON')
-    template_directory = os.getenv('TEMPLATE_DIRECTORY', '.')  # Default to '.'
-    output_directory = os.getenv('OUTPUT_DIRECTORY', '.')  # Default to '.'
-    template_variables = json.loads(template_variables_json)
+# Load JSON context from a file
+with open('context.json', 'r') as file:
+    extra_context = json.load(file)
 
-    print(type(template_variables))  # Should be <class 'dict'>
-    print(template_variables)
-    print(template_variables['project_name'])  # Test access
+template_repo_url = os.getenv('TEMPLATE_REPO_URL')
+template_directory = os.getenv('TEMPLATE_DIRECTORY', '.')  # Default to '.'
+output_directory = os.getenv('OUTPUT_DIRECTORY', '.')  # Default to '.'
 
-    command = ['cookiecutter', '--no-input', '--output-dir', output_directory]
-    if template_directory != '.':
-        command += ['--directory', template_directory]
-    command.append(template_repo_url)
-
-    # Execute the cookiecutter command with the specified environment variables
-    subprocess.run(command, env={**os.environ, **template_variables})
-
-if __name__ == "__main__":
-    main()
+# Call cookiecutter with the loaded context and optional template directory
+cookiecutter(
+    template_repo_url,
+    no_input=True,
+    extra_context=extra_context,
+    directory=template_directory,
+    output_dir=output_directory
+)
