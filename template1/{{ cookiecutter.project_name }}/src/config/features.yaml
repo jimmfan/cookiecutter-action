@@ -1,0 +1,32 @@
+# example of features.yaml
+numeric_features:
+  - age
+  - income
+  - account_balance
+
+categorical_features:
+  - gender
+  - region
+  - education_level
+
+preprocessing:
+  missing_values:
+    strategy: 'mean' # Options: 'mean', 'median', 'most_frequent', or a fixed value
+
+  scaling:
+    method: 'standard' # Options: 'standard', 'minmax', 'robust'
+
+  encoding:
+    method: 'one_hot' # Options: 'one_hot', 'label'
+
+feature_engineering:
+  polynomial_features:
+    degree: 2
+    include_bias: false
+    interaction_only: true
+
+  binning:
+    features:
+      - age
+      - account_balance
+    bins: 5

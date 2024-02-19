@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+
+# PySpark
+*.log
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editor settings
+.vscode/
+.idea/
+*.swp
+
+# Log files
+*.log
