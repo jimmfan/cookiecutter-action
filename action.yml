@@ -36,3 +36,6 @@ runs:
         TEMPLATE_VARIABLES_JSON: ${{ inputs.template_variables_json }}
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
         OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
+
+    - name: List files
+      run: ls -R
