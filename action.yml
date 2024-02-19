@@ -37,6 +37,11 @@ runs:
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
         OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
 
+    - name: Remove Python Script
+      run: rm generate_template.py
+      shell: bash
+      continue-on-error: true
+      
     - name: List files
       run: ls -R
       shell: bash      
