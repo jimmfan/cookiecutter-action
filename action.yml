@@ -24,16 +24,21 @@ runs:
       run: python3 -m pip install cookiecutter
       shell: bash
 
+    - name: Create temp directory
+      run: mkdir temp_action_dir
+
     - name: Create Context File from JSON String
+      working-directory: temp_action_dir
       run: echo '${{ inputs.template_variables_json }}' > context.json
       shell: bash
 
     - name: Download Python Script
+      working-directory: temp_action_dir
       run: wget https://raw.githubusercontent.com/jimmfan/cookiecutter-action/main/generate_template.py
       shell: bash      
 
     - name: Generate Project with Cookiecutter
-      run: python3 generate_template.py
+      run: python3 temp_action_dir/generate_template.py
       shell: bash
       env:
         TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
@@ -41,8 +46,9 @@ runs:
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
         OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
 
-    - name: Remove Python Script
-      run: rm generate_template.py
+    - name: Clean up
+      run: |
+        rm -rf temp_action_dir
       shell: bash
       
     - name: List files
