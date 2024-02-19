@@ -53,7 +53,7 @@ runs:
     - name: Unpack to root directory and cleanup files
       run: |
         rm -rf .github/
-        PROJECT_NAME=$(echo '${{ github.event.inputs.template_variables_json }}' | jq -r '.project_name')
+        PROJECT_NAME=$(echo '${{ inputs.template_json_variables }}' | jq -r '.project_name')
         shopt -s dotglob
         mv temp_action_dir/$PROJECT_NAME/* .
         shopt -u dotglob
