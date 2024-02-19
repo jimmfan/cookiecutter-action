@@ -39,3 +39,4 @@ runs:
 
     - name: List files
       run: ls -R
+      shell: bash      
