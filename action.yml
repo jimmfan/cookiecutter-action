@@ -17,6 +17,9 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
     - name: Install Dependencies
       run: python3 -m pip install cookiecutter
       shell: bash
