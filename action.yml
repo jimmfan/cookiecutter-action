@@ -7,6 +7,12 @@ inputs:
   template_variables_json:
     description: 'JSON string containing all the template variables'
     required: true
+  template_directory:
+    description: 'Relative path within the repository to the template directory'
+    required: false
+  output_directory:
+    description: 'Output directory for the generated project'
+    required: false
 
 runs:
   using: 'composite'
@@ -21,14 +27,5 @@ runs:
       env:
         TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
         TEMPLATE_VARIABLES_JSON: ${{ inputs.template_variables_json }}
-      
-#     - name: Generate Project Template
-#       run: |
-#         TEMPLATE_PATH="${{ github.workspace }}/github-actions-cookiecutter-ml/${{ github.event.inputs.template_path }}"
-#         python3 ./github-actions-cookiecutter-ml/generate_template.py \
-#         --project_name="${{ github.event.inputs.project_name }}" \
-#         --author="${{ github.event.inputs.author }}" \
-#         --email="${{ github.event.inputs.email }}" \
-#         --python_version="${{ github.event.inputs.python_version }}" \
-#         --output_dir="${{ github.event.inputs.output_dir }}"
-#       shell: bash
+        TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
+        OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
