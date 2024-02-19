@@ -40,7 +40,6 @@ runs:
     - name: Remove Python Script
       run: rm generate_template.py
       shell: bash
-      continue-on-error: true
       
     - name: List files
       run: ls -R
