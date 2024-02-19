@@ -22,7 +22,7 @@ runs:
       shell: bash
 
     - name: Generate Project with Cookiecutter
-      run: python3 -m generate_template.py
+      run: python3 generate_template.py
       shell: bash
       env:
         TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
