@@ -20,31 +20,79 @@ runs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
-    - name: List files
-      run: ls -R
-      shell: bash
-
     - name: Install Dependencies
       run: python3 -m pip install cookiecutter
       shell: bash
 
-    - name: Create temp directory
-      run: mkdir temp_action_dir
-      shell: bash      
-
-    - name: Download Python Script
-      working-directory: temp_action_dir
-      run: wget https://raw.githubusercontent.com/jimmfan/cookiecutter-action/main/generate_template.py
-      shell: bash
+    # - name: Create temp directory
+    #   run: mkdir temp_action_dir
+    #   shell: bash
 
     - name: Generate Project with Cookiecutter
-      run: python3 temp_action_dir/generate_template.py
+      run: |
+        python3 - <<EOF
+        import os
+        import json
+        from cookiecutter.main import cookiecutter
+
+        # Load JSON context from a file
+        with open(os.getenv('TEMPLATE_VAR_PATH'), 'r') as f:
+            extra_context = json.load(f)
+
+        template_repo_url = os.getenv('TEMPLATE_REPO_URL')
+        template_directory = os.getenv('TEMPLATE_DIRECTORY', '.')  # Default to '.'
+        output_directory = os.getenv('OUTPUT_DIRECTORY', '.')  # Default to '.'
+
+        # Call cookiecutter with the loaded context and template directory
+        cookiecutter(
+            template_repo_url,
+            no_input=True,
+            extra_context=extra_context,
+            directory=template_directory,
+            output_dir=output_directory
+        )
+
+        # Write project name to a file for later steps
+        with open('project_name.txt', 'w') as f:
+            f.write(extra_context.get('project_name'))
+        EOF
       shell: bash
       env:
         TEMPLATE_VAR_PATH: ${{ inputs.template_var_path }}
         TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
-        OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
+        OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}   
+
+    - name: Move Project Files and Cleanup
+      run: |
+        # Remove .github in case cookiecutter has the same files
+        rm -rf .github
+        
+        PROJECT_NAME=$(cat project_name.txt)
+        echo "Moving generated project files for: $PROJECT_NAME"
+        
+        # Since cookiecutter requires a project_name, we need to move it after it gets created
+        if [ -d "$PROJECT_NAME" ]; then
+          mv -v "$PROJECT_NAME"/* "$PROJECT_NAME"/.??* "${{ inputs.output_directory }}" 2>/dev/null || true
+        fi
+        
+        # Cleanup
+        rm -rf "$PROJECT_NAME" project_name.txt .github
+      shell: bash   
+
+    # - name: Download Python Script
+    #   working-directory: temp_action_dir
+    #   run: wget https://raw.githubusercontent.com/jimmfan/cookiecutter-action/main/generate_template.py
+    #   shell: bash
+
+    # - name: Generate Project with Cookiecutter
+    #   run: python3 temp_action_dir/generate_template.py
+    #   shell: bash
+    #   env:
+    #     TEMPLATE_VAR_PATH: ${{ inputs.template_var_path }}
+    #     TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
+    #     TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
+    #     OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
 
     - name: Unpack to root directory and cleanup files
       run: |
