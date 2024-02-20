@@ -10,9 +10,9 @@ inputs:
   template_directory:
     description: 'Relative path within the repository to the template directory'
     required: true
-  output_directory:
-    description: 'Output directory for the generated project'
-    required: false
+  # output_directory:
+  #   description: 'Output directory for the generated project'
+  #   required: false
 
 runs:
   using: 'composite'
@@ -37,7 +37,7 @@ runs:
 
         template_repo_url = os.getenv('TEMPLATE_REPO_URL')
         template_directory = os.getenv('TEMPLATE_DIRECTORY', '.')  # Default to '.'
-        output_directory = os.getenv('OUTPUT_DIRECTORY', '.')  # Default to '.'
+        # output_directory = os.getenv('OUTPUT_DIRECTORY', '.')  # Default to '.'
 
         # Call cookiecutter with the loaded context and template directory
         cookiecutter(
@@ -45,7 +45,7 @@ runs:
             no_input=True,
             extra_context=extra_context,
             directory=template_directory,
-            output_dir=output_directory
+            # output_dir=output_directory
         )
 
         # Write project name to a file for later steps
@@ -57,7 +57,7 @@ runs:
         TEMPLATE_VAR_PATH: ${{ inputs.template_var_path }}
         TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
-        OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}   
+        # OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}   
 
     - name: Move Project Files and Cleanup
       run: |
@@ -69,7 +69,7 @@ runs:
         
         # Since cookiecutter requires a project_name, we need to move it after it gets created
         if [ -d "$PROJECT_NAME" ]; then
-          mv -v "$PROJECT_NAME"/* "$PROJECT_NAME"/.??* "${{ inputs.output_directory }}" 2>/dev/null || true
+          mv -v "$PROJECT_NAME"/* "$PROJECT_NAME"/.??* "." 2>/dev/null || true
         fi
         
         # Cleanup
