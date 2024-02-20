@@ -34,7 +34,6 @@ runs:
       shell: bash
 
     - name: Generate Project with Cookiecutter
-      # working-directory: temp_action_dir
       run: python3 temp_action_dir/generate_template.py
       shell: bash
       env:
