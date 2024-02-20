@@ -38,7 +38,7 @@ runs:
       run: python3 generate_template.py
       shell: bash
       env:
-        TEMPLATE_VAR_PATH: ${{ inputs.template_var_path }}
+        TEMPLATE_VAR_PATH: temp_action_dir/${{ inputs.template_var_path }}
         TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
         OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
