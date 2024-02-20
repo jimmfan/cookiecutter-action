@@ -1,8 +1,8 @@
 name: 'Cookiecutter Action'
 description: 'Generates a project structure from a Cookiecutter template using dynamic inputs'
 inputs:
-  template_json_variables:
-    description: 'JSON string containing all the template variables'
+  template_var_path:
+    description: 'JSON path containing all the template variables'
     required: true
   template_repo_url:
     description: 'Cookiecutter template git repository URL'
@@ -33,18 +33,12 @@ runs:
       run: wget https://raw.githubusercontent.com/jimmfan/cookiecutter-action/main/generate_template.py
       shell: bash
 
-    - name: Set TEMPLATE_VARIABLES_JSON
-      run: |
-        content=$(jq -c @json ${{ inputs.template_json_variables }})
-        echo "TEMPLATE_JSON_VARIABLES=$content" >> $GITHUB_ENV
-      shell: bash
-
     - name: Generate Project with Cookiecutter
       working-directory: temp_action_dir
       run: python3 generate_template.py
       shell: bash
       env:
-        TEMPLATE_JSON_VARIABLES: ${{ env.TEMPLATE_JSON_VARIABLES }}
+        TEMPLATE_VAR_PATH: ${{ inputs.template_var_path }}
         TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
         OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
@@ -52,7 +46,8 @@ runs:
     - name: Unpack to root directory and cleanup files
       run: |
         rm -rf .github/
-        PROJECT_NAME=$(echo '${{ inputs.template_json_variables }}' | jq -r '.project_name')
+        content=$(jq -c '.' "${{ inputs.template_var_path }}")
+        PROJECT_NAME=$(echo $content | jq -r '.project_name')
         shopt -s dotglob
         mv temp_action_dir/$PROJECT_NAME/* .
         shopt -u dotglob
