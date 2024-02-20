@@ -73,5 +73,5 @@ runs:
         fi
         
         # Cleanup
-        rm -rf "$PROJECT_NAME" project_name.txt .github
+        rm -rf "$PROJECT_NAME" project_name.txt
       shell: bash   
