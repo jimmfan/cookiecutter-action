@@ -67,7 +67,7 @@ runs:
       run: |
         # Remove .github in case cookiecutter has the same files
         rm -rf .github
-        
+
         PROJECT_NAME=$(cat project_name.txt)
         echo "Moving generated project files for: $PROJECT_NAME"
         
@@ -94,13 +94,13 @@ runs:
     #     TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
     #     OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
 
-    - name: Unpack to root directory and cleanup files
-      run: |
-        rm -rf .github/
-        content=$(jq -c '.' "${{ inputs.template_var_path }}")
-        PROJECT_NAME=$(echo $content | jq -r '.project_name')
-        shopt -s dotglob
-        mv $PROJECT_NAME/* .
-        shopt -u dotglob
-        rm -rf temp_action_dir
-      shell: bash
+    # - name: Unpack to root directory and cleanup files
+    #   run: |
+    #     rm -rf .github/
+    #     content=$(jq -c '.' "${{ inputs.template_var_path }}")
+    #     PROJECT_NAME=$(echo $content | jq -r '.project_name')
+    #     shopt -s dotglob
+    #     mv $PROJECT_NAME/* .
+    #     shopt -u dotglob
+    #     rm -rf temp_action_dir
+    #   shell: bash
