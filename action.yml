@@ -24,10 +24,6 @@ runs:
       run: python3 -m pip install cookiecutter==2.5.0
       shell: bash
 
-    # - name: Create temp directory
-    #   run: mkdir temp_action_dir
-    #   shell: bash
-
     - name: Generate Project with Cookiecutter
       run: |
         python3 - <<EOF
@@ -79,28 +75,3 @@ runs:
         # Cleanup
         rm -rf "$PROJECT_NAME" project_name.txt .github
       shell: bash   
-
-    # - name: Download Python Script
-    #   working-directory: temp_action_dir
-    #   run: wget https://raw.githubusercontent.com/jimmfan/cookiecutter-action/main/generate_template.py
-    #   shell: bash
-
-    # - name: Generate Project with Cookiecutter
-    #   run: python3 temp_action_dir/generate_template.py
-    #   shell: bash
-    #   env:
-    #     TEMPLATE_VAR_PATH: ${{ inputs.template_var_path }}
-    #     TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
-    #     TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
-    #     OUTPUT_DIRECTORY: ${{ inputs.output_directory || '.' }}
-
-    # - name: Unpack to root directory and cleanup files
-    #   run: |
-    #     rm -rf .github/
-    #     content=$(jq -c '.' "${{ inputs.template_var_path }}")
-    #     PROJECT_NAME=$(echo $content | jq -r '.project_name')
-    #     shopt -s dotglob
-    #     mv $PROJECT_NAME/* .
-    #     shopt -u dotglob
-    #     rm -rf temp_action_dir
-    #   shell: bash
