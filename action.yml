@@ -20,6 +20,10 @@ runs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
+    - name: List files
+      run: ls -R
+      shell: bash
+
     - name: Install Dependencies
       run: python3 -m pip install cookiecutter
       shell: bash
