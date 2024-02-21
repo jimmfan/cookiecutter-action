@@ -53,8 +53,8 @@ runs:
     - name: Move Project Files and Cleanup
       run: |
         # Move .github/worfklows file used to generate template for reference
-        rsync -av --ignore-existing .github/workflows/ static/.github/workflows/
-
+        rsync -av --include='*/' --include='*.yml' --include='*.yaml' --exclude='*' .github/workflows/ cookiecutter-template/.github/workflows/
+        
         # # Remove .github after moving files over
         # rm -rf .github
 
