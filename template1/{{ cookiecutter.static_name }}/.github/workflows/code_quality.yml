@@ -1,0 +1,44 @@
+name: Code Quality
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - ready_for_review
+    branches:
+      - main
+    paths:
+      - 'src/**/*.py'
+      - 'src/**/*.js'
+      - 'src/**/*.ts'
+
+env:
+  repo_name: ${{ github.event.repository.name }}
+  python_version: "3.10"
+
+jobs:
+  lint-test:
+    name: Lint and Test Python code
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ env.python_version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.python_version }}
+
+      - name: Install dependencies
+        run: |
+          make setup
+
+      - name: Lint our code
+        run: |
+          make lints.format.check
+
+      - name: Test our code
+        run: |
+          make test.coverage
