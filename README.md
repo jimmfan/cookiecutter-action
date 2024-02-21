@@ -56,10 +56,6 @@ on:
         description: 'Relative path within the repository to the template directory'
         required: false
         default: 'template1'
-      output_directory:
-        description: 'Output directory for the generated project'
-        required: false
-        default: '.'
 
 jobs:
   generate_template:
@@ -76,7 +72,6 @@ jobs:
         template_var_path: ${{ github.event.inputs.template_var_path }}
         template_repo_url: ${{ github.event.inputs.template_repo_url }}
         template_directory: ${{ github.event.inputs.template_directory }}
-        output_directory: ${{ github.event.inputs.output_directory }}
     
     # Example pushing to a branch
     - name: Create and Push to Branch

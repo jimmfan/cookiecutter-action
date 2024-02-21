@@ -1,4 +1,5 @@
 {   
+    "static_name": "static",
     "project_name": "{{cookiecutter.project_name}}",
     "author": "{{cookiecutter.author}}",
     "email": "{{cookiecutter.email}}",
