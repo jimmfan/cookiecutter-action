@@ -52,15 +52,7 @@ runs:
 
     - name: Move Project Files and Cleanup
       run: |
-        # Move .github/worfklows file used to generate template for reference
-        rsync -av --include='*/' --include='*.yml' --include='*.yaml' --exclude='*' .github/workflows/ static/.github/workflows/
-        
-        # # Remove .github after moving files over
-        # rm -rf .github
-
-        # Move hardcoded "static" project files to root directory
-        if [ -d "static" ]; then
-          mv -v "static"/* "static"/.??* "." 2>/dev/null || true
-        fi
+        # This will merge the root with the cookiecutter files, but will overwrite any files with the same name
+        rsync -av static/ ./
         
       shell: bash   
