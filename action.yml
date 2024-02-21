@@ -55,6 +55,9 @@ runs:
         # Move .github/worfklows file used to generate template for reference
         rsync -av --ignore-existing .github/workflows/ static/.github/workflows/
 
+        # Remove .github after moving files over
+        rm -rf .github
+
         # Move hardcoded "static" project files to root directory
         if [ -d "static" ]; then
           mv -v "static"/* "static"/.??* "." 2>/dev/null || true
