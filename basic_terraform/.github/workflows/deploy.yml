@@ -28,8 +28,8 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        cli_config_credentials_token: {% raw %}${{ secrets.TF_API_TOKEN }}{% endraw %}
-
+        cli_config_credentials_token: {% raw %}${{ secrets.TF_API_TOKEN }}
+        {% endraw %}
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
