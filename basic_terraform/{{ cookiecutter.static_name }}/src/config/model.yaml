@@ -1,0 +1,24 @@
+# example of model_config.yaml
+model_type: "random_forest"
+training:
+  test_split: 0.2
+  cross_validation:
+    k_folds: 5
+    shuffle: true
+
+evaluation_metrics:
+  - "accuracy"
+  - "precision"
+  - "recall"
+  - "f1_score"
+
+random_forest:
+  criterion: "gini"
+  max_features: "auto"
+
+gradient_boosting:
+  loss: "deviance"
+
+neural_network:
+  optimizer: "adam"
+  loss_function: "binary_crossentropy"

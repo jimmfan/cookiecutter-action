@@ -1,0 +1,36 @@
+tables:
+  - name: source_table_1
+  - partitions: date
+  - filter: "column1 > 0"
+    columns:
+      - column1:
+          description:
+      - column2:
+          description:
+          transformations:
+          aggregate:
+            group_by: [column2]
+            operations:
+              - sum: column3
+              - count: column3
+              - dense_rank: column3
+
+    joins:
+      - join_table: reference_table
+        join_condition:
+          source_table_1.column1: reference_table.columnA
+    transformations:
+      - filter: "column1 > 0"
+      - aggregate:
+          group_by: [column2]
+          operations:
+            - sum: column3
+            - count: column3
+            - dense_rank: column3
+
+  - name: destination_table
+    columns:
+      - column1
+      - column2_aggregated
+      - count_column1
+
