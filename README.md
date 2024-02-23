@@ -38,7 +38,7 @@ Create a json file in your repo that matches with template cookiecutter.json fil
 ```
 
 To use this action in your workflow, add the following step to your `.github/workflows/your-workflow.yml`:
-
+{% raw %}
 ```yaml
 name: Generate Project Structure
 
@@ -89,4 +89,4 @@ jobs:
         GIT_USER_NAME: "GitHub Actions"
         GIT_USER_EMAIL: "actions@github.com"
 ```
-        
+{% endraw %}        
