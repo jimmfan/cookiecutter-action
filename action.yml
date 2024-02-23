@@ -1,6 +1,9 @@
 name: 'Cookiecutter Action'
 description: 'Generates a project structure from a Cookiecutter template using dynamic inputs'
 inputs:
+  workflow_token:
+    description: 'Github token with workflow access'
+    required: true
   template_var_path:
     description: 'JSON path containing all the template variables'
     required: true
@@ -16,6 +19,8 @@ runs:
   steps:
     - name: Checkout Repo
       uses: actions/checkout@v2
+      with:
+        token: ${{ inputs.workflow_token }}
 
     - name: Install Dependencies
       run: python3 -m pip install cookiecutter==2.5.0
@@ -54,5 +59,4 @@ runs:
       run: |
         # This will merge the root with the cookiecutter files, but will overwrite any files with the same name
         rsync -av static/ ./
-        
-      shell: bash   
+      shell: bash
