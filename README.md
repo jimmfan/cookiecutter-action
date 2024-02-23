@@ -10,23 +10,24 @@ This GitHub Action generates a project structure using a Cookiecutter template, 
 
 ## Prerequisites
 
-Before you use this action, you'll need:
+Before you use this action, you'll need the following in your repository:
 - A GitHub repository where you intend to use this action.
-- A Cookiecutter template repository URL.
+- The inputs list below.
+- JSON file with the cookiecutter template variables
 
 ## Inputs
 
 This action supports the following inputs:
-
+- `workflow_token`: (Required) The github token with workflow write access (Required for editing .github/workflow templates)
 - `template_var_path`: (Required) The JSON path containing all the Cookiecutter template variables.
 - `template_repo_url`: (Required) The Cookiecutter template git repository URL.
 - `template_directory`: (Optional) Relative path within the repository to the template directory. Default is the repository root.
 - `output_directory`: (Optional) Output directory for the generated project. Defaults to the current working directory.
 
 ## Usage
-
 Create a json file in your repo that matches with template cookiecutter.json file.  
 
+# Example JSON for basic-python
 ```json
 {   
     "project_name": "test_project",
@@ -36,7 +37,7 @@ Create a json file in your repo that matches with template cookiecutter.json fil
 }
 ```
 
-To use this action in your workflow, add the following step to your `.github/workflows/your-workflow.yml` (this will get deleted):
+To use this action in your workflow, add the following step to your `.github/workflows/your-workflow.yml`:
 
 ```yaml
 name: Generate Project Structure
@@ -45,7 +46,7 @@ on:
   workflow_dispatch:
     inputs:
       template_var_path:
-        description: 'JSON path containing cookiecutter template variables'
+        description: 'JSON path containing all the cookiecutter template variables'
         required: true
         default: 'cookiecutter_inputs.json'
       template_repo_url:
@@ -69,11 +70,11 @@ jobs:
     - name: Create Cookiecutter Template
       uses: jimmfan/cookiecutter-action@main
       with:
+        workflow_token: ${{ secrets.WORKFLOW_TOKEN }}
         template_var_path: ${{ github.event.inputs.template_var_path }}
         template_repo_url: ${{ github.event.inputs.template_repo_url }}
         template_directory: ${{ github.event.inputs.template_directory }}
-    
-    # Example pushing to a branch
+        
     - name: Create and Push to Branch
       run: |
         BRANCH_NAME="generated-${{ github.run_id }}"
