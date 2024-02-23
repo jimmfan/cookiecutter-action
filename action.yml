@@ -59,4 +59,13 @@ runs:
       run: |
         # This will merge the root with the cookiecutter files, but will overwrite any files with the same name
         rsync -av static/ ./
+
+        # Check if rsync was successful
+        if [ $? -eq 0 ]; then
+          echo "rsync completed successfully. Removing the source directory..."
+          rm -r static/
+        else
+          echo "rsync failed to remove the source directory."
+          exit 1 # Optionally force this step to fail if rsync fails
+        fi
       shell: bash
