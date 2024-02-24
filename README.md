@@ -48,7 +48,7 @@ on:
       template_var_path:
         description: 'JSON path containing all the cookiecutter template variables'
         required: true
-        default: 'cookiecutter_inputs.json'
+        default: 'cookiecutter_inputs.json' # name of the json file
       template_repo_url:
         description: 'Cookiecutter template git repository URL'
         required: true
