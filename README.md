@@ -20,7 +20,6 @@ Before you use this action, you'll need the following in your repository:
 This action supports the following inputs:
 - `workflow_token`: (Required) The github token with workflow write access (Required for editing .github/workflow templates)
 - `template_var_path`: (Required) The JSON path containing all the Cookiecutter template variables.
-- `template_repo_url`: (Required) The Cookiecutter template git repository URL.
 - `template_directory`: (Optional) Relative path within the repository to the template directory. Default is the repository root.
 - `output_directory`: (Optional) Output directory for the generated project. Defaults to the current working directory.
 
@@ -45,18 +44,15 @@ name: Generate Project Structure
 on:
   workflow_dispatch:
     inputs:
-      template_var_path:
-        description: 'JSON path containing all the cookiecutter template variables'
-        required: true
-        default: 'cookiecutter_inputs.json' # name of the json file
-      template_repo_url:
-        description: 'Cookiecutter template git repository URL'
-        required: true
-        default: 'https://github.com/jimmfan/cookiecutter-action.git'
       template_directory:
         description: 'Relative path within the repository to the template directory'
-        required: false
-        default: 'template1'
+        required: true    
+      template_var_path:
+        description: 'JSON path containing all the template variables'
+        required: true
+      workflow_token:
+        description: 'Github token with workflow access'
+        required: true
 
 jobs:
   generate_template:
