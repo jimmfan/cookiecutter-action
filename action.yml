@@ -4,11 +4,11 @@ inputs:
   workflow_token:
     description: 'Github token with workflow access'
     required: true
-  template_var_path:
-    description: 'JSON path containing all the template variables'
-    required: true
   template_directory:
     description: 'Relative path within the repository to the template directory'
+    required: true    
+  template_var_path:
+    description: 'JSON path containing all the template variables'
     required: true
 
 runs:
@@ -48,8 +48,9 @@ runs:
         EOF
       shell: bash
       env:
-        TEMPLATE_VAR_PATH: ${{ inputs.template_var_path }}
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
+        TEMPLATE_VAR_PATH: ${{ inputs.template_var_path }}
+        
 
     - name: Move Project Files and Cleanup
       run: |
