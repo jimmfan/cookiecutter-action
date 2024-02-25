@@ -1,14 +1,17 @@
 name: 'Cookiecutter Action'
 description: 'Generates a project structure from a Cookiecutter template using dynamic inputs'
 inputs:
-  template_directory:
-    description: 'Relative path within the repository to the template directory'
-    required: true    
+  workflow_token:
+    description: 'Github token with workflow access'
+    required: true
   template_var_path:
     description: 'JSON path containing all the template variables'
     required: true
-  workflow_token:
-    description: 'Github token with workflow access'
+  template_repo_url:
+    description: 'Cookiecutter template git repository URL'
+    required: true
+  template_directory:
+    description: 'Relative path within the repository to the template directory'
     required: true
 
 runs:
@@ -34,19 +37,22 @@ runs:
         with open(os.getenv('TEMPLATE_VAR_PATH'), 'r') as f:
             extra_context = json.load(f)
 
+        template_repo_url = os.getenv('TEMPLATE_REPO_URL')
         template_directory = os.getenv('TEMPLATE_DIRECTORY', '.')  # Default to '.'
 
         # Call cookiecutter with the loaded context and template directory
         cookiecutter(
-            template_directory,
+            template_repo_url,
             no_input=True,
             extra_context=extra_context,
+            directory=template_directory,
             output_dir='.'
         )
         EOF
       shell: bash
       env:
         TEMPLATE_VAR_PATH: ${{ inputs.template_var_path }}
+        TEMPLATE_REPO_URL: ${{ inputs.template_repo_url }}
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
 
     - name: Move Project Files and Cleanup
