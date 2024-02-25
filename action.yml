@@ -38,10 +38,9 @@ runs:
 
         # Call cookiecutter with the loaded context and template directory
         cookiecutter(
-            '.',
+            template_directory,
             no_input=True,
             extra_context=extra_context,
-            directory=template_directory,
             output_dir='.'
         )
         EOF
