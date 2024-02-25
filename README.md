@@ -68,7 +68,6 @@ jobs:
       with:
         workflow_token: ${{ secrets.WORKFLOW_TOKEN }}
         template_var_path: ${{ github.event.inputs.template_var_path }}
-        template_repo_url: ${{ github.event.inputs.template_repo_url }}
         template_directory: ${{ github.event.inputs.template_directory }}
         
     - name: Create and Push to Branch
