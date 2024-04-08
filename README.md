@@ -35,6 +35,16 @@ Create a json file in your repo that matches with template cookiecutter.json fil
 }
 ```
 
+# Example JSON for basic_terraform
+```json
+{   
+    "project_name": "terraform-test_project",
+    "author": "jimmfan",
+    "email": "jimmmfan@github.com",
+    "terraform_org": "your-terraform-org"
+}
+```
+
 To use this action in your workflow, add the following step to your `.github/workflows/your-workflow.yml`:
 {% raw %}
 ```yaml
