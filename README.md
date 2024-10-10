@@ -18,32 +18,16 @@ Before you use this action, you'll need the following in your repository:
 ## Inputs
 
 This action supports the following inputs:
+- `author`: jimmfan
+- `email`: jimmfan@github.com
+- `project_name`: (Required) project_name
+- `python_version`: (Optional) python version for basic_python template
+- `terraform_org`: (Optional) terraform org for basic_terraform template
 - `template_directory`: (Optional) Relative path within the repository to the template directory. Default is the repository root.
-- `template_var_path`: (Required) The JSON path containing all the Cookiecutter template variables.
 - `workflow_token`: (Required) The github token with workflow write access (Required for editing .github/workflow templates)
 
 ## Usage
-Create a json file in your repo that matches with template cookiecutter.json file.  
-
-# Example JSON for basic_python
-```json
-{   
-    "project_name": "test_project",
-    "author": "jimmfan",
-    "email": "jimmmfan@github.com",
-    "python_version": "3.10"
-}
-```
-
-# Example JSON for basic_terraform
-```json
-{   
-    "project_name": "terraform-test_project",
-    "author": "jimmfan",
-    "email": "jimmmfan@github.com",
-    "terraform_org": "your-terraform-org"
-}
-```
+Create a workflow YML file
 
 To use this action in your workflow, add the following step to your `.github/workflows/your-workflow.yml`:
 {% raw %}
@@ -57,7 +41,8 @@ env:
   author: jimmfan
   email: jimmfan@github.com
   project_name: project_name
-  python_version: 3.13
+  python_version: 3.13 # basic_python
+  terraform_org: basic_terraform # basic_terraform
   template_directory: basic_python
   
 jobs:
@@ -73,6 +58,7 @@ jobs:
         email: ${{ env.email }}
         project_name: ${{ env.project_name }}
         python_version: ${{ env.python_version }}
+        terraform_org: ${{ env.terraform_org }}
         template_directory: ${{ env.template_directory }}
         workflow_token: ${{ secrets.WORKFLOW_TOKEN }}
         

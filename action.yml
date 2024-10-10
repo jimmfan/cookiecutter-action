@@ -3,16 +3,18 @@ description: Generates a project structure from a Cookiecutter template using dy
 inputs:
   author:
     description: Project owner's name
-    default: CHANGEME
+    default: jimmfan
   email:
     description: Project owner's email address
-    default: CHANGEME
+    default: jimmfan@github.com
   project_name:
     description: Project name
     required: true
   python_version:
     description: Python version
     default: 3.13
+  terraform_org:
+    description: Terraform Org Name
   template_directory:
     description: Relative path within the repository to the template directory
     default: basic_python
