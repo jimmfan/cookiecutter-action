@@ -54,8 +54,11 @@ on:
   push:
 
 env:
-  template_directory: 'basic_python'
-  template_var_path: 'cookiecutter_inputs.json'
+  author: jimmfan
+  email: jimmfan@github.com
+  project_name: project_name
+  python_version: 3.13
+  template_directory: basic_python
   
 jobs:
   generate_template:
@@ -66,8 +69,11 @@ jobs:
     - name: Create Cookiecutter Template
       uses: jimmfan/cookiecutter-action@main
       with:
+        author: ${{ env.author }}
+        email: ${{ env.email }}
+        project_name: ${{ env.project_name }}
+        python_version: ${{ env.python_version }}
         template_directory: ${{ env.template_directory }}
-        template_var_path: ${{ env.template_var_path }}
         workflow_token: ${{ secrets.WORKFLOW_TOKEN }}
         
     - name: Create and Push to Branch
