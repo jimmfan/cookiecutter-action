@@ -1,14 +1,28 @@
-name: 'Cookiecutter Action'
-description: 'Generates a project structure from a Cookiecutter template using dynamic inputs'
+name: Cookiecutter Action
+description: Generates a project structure from a Cookiecutter template using dynamic inputs
 inputs:
-  workflow_token:
-    description: 'Github token with workflow access'
+  author:
+    description: Project owner's name
+    default: jimmfan
+  email:
+    description: Project owner's email address
+    default: jimmfan@github.com
+  project_name:
+    description: Project name
     required: true
+  python_version:
+    description: Python version
+    default: 3.13
+  terraform_org:
+    description: Terraform Org Name
   template_directory:
-    description: 'Relative path within the repository to the template directory'
-    required: true    
-  template_var_path:
-    description: 'JSON path containing all the template variables'
+    description: Relative path within the repository to the template directory
+    default: basic_python
+    options:
+    - basic_python
+    - basic_terraform
+  workflow_token:
+    description: Github token with workflow access
     required: true
 
 runs:
@@ -31,17 +45,24 @@ runs:
         import json
         from cookiecutter.main import cookiecutter
 
-        # Load JSON context from a file
-        with open(os.getenv('TEMPLATE_VAR_PATH'), 'r') as f:
-            extra_context = json.load(f)
-
         template_repo_url = 'https://github.com/jimmfan/cookiecutter-action.git' 
         template_directory = os.getenv('TEMPLATE_DIRECTORY', '.')  # Default to '.'
+
+        # Create template dictionary from env variables
+        extra_context = {
+          key: os.getenv(key) for key in [
+            'project_name', 
+            'author', 
+            'email', 
+            'python_version'
+          ]
+        }        
 
         # Call cookiecutter with the loaded context and template directory
         cookiecutter(
             template_repo_url,
             no_input=True,
+            checkout='rm_json', 
             extra_context=extra_context,
             directory=template_directory,
             output_dir='.'
@@ -50,7 +71,6 @@ runs:
       shell: bash
       env:
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
-        TEMPLATE_VAR_PATH: ${{ inputs.template_var_path }}
         
     - name: Move Project Files and Cleanup
       run: |

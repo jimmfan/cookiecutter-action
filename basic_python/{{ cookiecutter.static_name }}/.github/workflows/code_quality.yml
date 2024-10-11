@@ -16,7 +16,7 @@ on:
 
 env:
   python_version: {{ cookiecutter.python_version }}
-  repo_name: {% raw %}${{ github.event.repository.name }}{% raw %} 
+  repo_name: {% raw %}${{ github.event.repository.name }}
 
 jobs:
   lint-test:
@@ -42,5 +42,4 @@ jobs:
       - name: Test our code
         run: |
           make test.coverage
-
 {% endraw %}          
