@@ -19,7 +19,7 @@ Before you use this action, you'll need the following in your repository:
 
 This action supports the following inputs:
 - `author`: Author name
-- `email`: Author's email
+- `email`: Author email
 - `project_name`: (Required) project_name
 - `python_version`: (Optional) python version for basic_python template
 - `terraform_org`: (Optional) terraform org for basic_terraform template
