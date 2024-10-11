@@ -18,8 +18,8 @@ Before you use this action, you'll need the following in your repository:
 ## Inputs
 
 This action supports the following inputs:
-- `author`: jimmfan
-- `email`: jimmfan@github.com
+- `author`: Author name
+- `email`: Author's email
 - `project_name`: (Required) project_name
 - `python_version`: (Optional) python version for basic_python template
 - `terraform_org`: (Optional) terraform org for basic_terraform template
