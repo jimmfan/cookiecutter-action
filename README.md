@@ -13,7 +13,6 @@ This GitHub Action generates a project structure using a Cookiecutter template, 
 Before you use this action, you'll need the following in your repository:
 - A GitHub repository where you intend to use this action.
 - The inputs list below.
-- JSON file with the cookiecutter template variables
 
 ## Inputs
 
