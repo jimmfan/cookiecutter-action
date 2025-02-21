@@ -62,7 +62,7 @@ runs:
         cookiecutter(
             template_repo_url,
             no_input=True,
-            checkout='rm_json', 
+            checkout='main', 
             extra_context=extra_context,
             directory=template_directory,
             output_dir='.'
