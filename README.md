@@ -41,7 +41,7 @@ env:
   email: jimmfan@github.com
   project_name: project_name
   python_version: 3.13 # basic_python
-  terraform_org: basic_terraform # basic_terraform
+  terraform_org: tf_cloud_org # basic_terraform
   template_directory: basic_python
   
 jobs:

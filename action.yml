@@ -29,7 +29,7 @@ runs:
   using: 'composite'
   steps:
     - name: Checkout Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         token: ${{ inputs.workflow_token }}
 
@@ -46,7 +46,7 @@ runs:
         from cookiecutter.main import cookiecutter
 
         template_repo_url = 'https://github.com/jimmfan/cookiecutter-action.git' 
-        template_directory = os.getenv('TEMPLATE_DIRECTORY', '.')  # Default to '.'
+        template_directory = os.getenv('TEMPLATE_DIRECTORY')
 
         # Create template dictionary from env variables
         extra_context = {
@@ -54,9 +54,10 @@ runs:
             'project_name', 
             'author', 
             'email', 
-            'python_version'
+            'python_version',
+            'terraform_org',
           ]
-        }        
+        }
 
         # Call cookiecutter with the loaded context and template directory
         cookiecutter(
