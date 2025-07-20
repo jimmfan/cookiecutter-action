@@ -40,7 +40,7 @@ runs:
     # Raw string avoids having to curl or checkout the python file
     - name: Generate Project with Cookiecutter
       shell: bash
-      run: python "${{ github.action_path }}/cookiecutter_python.py
+      run: python ${{ github.action_path }}/cookiecutter_python.py
       env:
         TEMPLATE_DIRECTORY: ${{ inputs.template_directory || '.' }}
         
