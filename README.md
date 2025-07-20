@@ -51,7 +51,7 @@ jobs:
       contents: write
     steps:
     - name: Create Cookiecutter Template
-      uses: jimmfan/cookiecutter-action@main
+      uses: jimmfan/cookiecutter-action/action@main
       with:
         author: ${{ env.author }}
         email: ${{ env.email }}
