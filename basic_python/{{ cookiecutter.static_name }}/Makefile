@@ -3,6 +3,7 @@ VERSION=0.1.0
 PYTHON_VERSION={{cookiecutter.python_version}}
 SOURCE_OBJECTS=src tests
 
+# This section allows compatiility between mac/linux and windows
 # Detect OS using uname
 UNAME := $(shell uname -s)
 
@@ -32,19 +33,13 @@ ensure-uv:  ## Ensure uv is installed globally
 setup: ensure-uv  ## Create virtual environment and install dependencies
 	@echo "Detected OS: $(UNAME)"
 	uv venv .venv
-	. $(ACTIVATE) && uv pip install --upgrade pip && uv pip install -e . --extra dev
+	. $(ACTIVATE) && \ 
+	uv pip install --upgrade pip && \
+	uv pip install -e . --extra dev
 
 # Install dependencies only (assumes venv is created)
 install:  # Install project in editable mode with extra dev
 	. $(ACTIVATE) && uv pip install -e . --extra dev
-
-# Run main entry point
-run:  ## Run main pipeline
-	. $(ACTIVATE) && python src/main.py
-
-# Format code
-format:  ## Format code with black
-	black $(SOURCE_OBJECTS)
 
 # Lint code
 lint:  ## Lint code with ruff
@@ -60,7 +55,7 @@ clean:  ## Remove build artifacts, caches, and venv
 	find . -type d -name "__pycache__" -exec rm -r {} +
 
 format: 
-	uvx ruff format
+	uvx ruff format ${SOURCE_OBJECTS}
 
 lints: 
 	uvx ruff check --fix ${SOURCE_OBJECTS}
