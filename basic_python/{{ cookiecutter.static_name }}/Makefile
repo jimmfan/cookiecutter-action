@@ -1,19 +1,22 @@
-PROJECT={{cookiecutter.project_name}}
-VERSION=0.1.0
-PYTHON_VERSION={{cookiecutter.python_version}}
 SOURCE_OBJECTS=src tests
 
 # This section allows compatiility between mac/linux and windows
 # Detect OS using uname
 UNAME := $(shell uname -s)
 
-# Set Python and activation path based on platform
-ifeq ($(filter Linux Darwin,$(UNAME)),$(UNAME))
-	ACTIVATE := .venv/bin/activate
+ifeq ($(UNAME),Linux)
+	PYTHON := python3
+	ACTIVATE = . .venv/bin/activate
 endif
 
-ifneq ($(filter MINGW MSYS CYGWIN,$(UNAME)),)
-	ACTIVATE := .venv/Scripts/activate
+ifeq ($(UNAME),Darwin)
+	PYTHON := python3
+	ACTIVATE = . .venv/bin/activate
+endif
+
+ifeq ($(OS),Windows_NT)
+	PYTHON := python
+	ACTIVATE = .venv\Scripts\activate
 endif
 
 # Default target
@@ -27,7 +30,9 @@ help:  ## Show this help message
 
 # Ensure uv is installed globally
 ensure-uv:  ## Ensure uv is installed globally
-	@which uv >/dev/null 2>&1 || (echo "Installing uv..." && pip install uv)
+	@which uv >/dev/null 2>&1 || \
+	(echo "running pip $(PYTHON) install uv..." && 
+	$(PYTHON) -m pip install uv)
 
 # Setup project: create venv, install pip & dependencies
 setup: ensure-uv  ## Create virtual environment and install dependencies
@@ -39,11 +44,14 @@ setup: ensure-uv  ## Create virtual environment and install dependencies
 
 # Install dependencies only (assumes venv is created)
 install:  # Install project in editable mode with extra dev
-	. $(ACTIVATE) && uv pip install -e . --extra dev
+	uv pip install -e .
+
+dev: 
+	uv pip install -e .[dev]
 
 # Lint code
 lint:  ## Lint code with ruff
-	ruff check src tests
+	uvx ruff check --fix ${SOURCE_OBJECTS}
 
 # Run unit tests
 test:  ## Run tests with pytest
@@ -56,9 +64,3 @@ clean:  ## Remove build artifacts, caches, and venv
 
 format: 
 	uvx ruff format ${SOURCE_OBJECTS}
-
-lints: 
-	uvx ruff check --fix ${SOURCE_OBJECTS}
-
-test.coverage: test
-	
