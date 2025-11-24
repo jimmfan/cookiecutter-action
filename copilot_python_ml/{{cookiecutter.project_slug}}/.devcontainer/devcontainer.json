@@ -1,0 +1,30 @@
+{
+  "name": "python-uv-project",
+
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers-extra/features/pre-commit:2": {}
+  },
+
+  "containerEnv": {
+    "UV_LINK_MODE": "copy"
+  },
+
+  "postCreateCommand": "uv sync && pre-commit install",
+
+  "postStartCommand": "bash .devcontainer/setup.sh",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "github.copilot",
+        "github.copilot-chat",
+        "ms-python.python"
+      ]
+    }
+  }
+}

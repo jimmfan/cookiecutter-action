@@ -1,0 +1,4 @@
+data:
+  train_features_path: data/train/train_features.parquet
+  train_labels_path: data/train/train_labels.parquet
+  oot_features_path: data/oot/oot_features.parquet

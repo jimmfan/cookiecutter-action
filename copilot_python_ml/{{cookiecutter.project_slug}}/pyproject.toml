@@ -1,0 +1,29 @@
+[project]
+name = "{{cookiecutter.package_name}}"
+version = "0.1.0"
+description = "{{ cookiecutter.project_name }}"
+readme = "README.md"
+requires-python = ">= {{ cookiecutter.python_version }}"
+license = { text = "Proprietary" }
+authors = [
+  { name = "{{ cookiecutter.author }}", email = "{{ cookiecutter.email }}" }
+]
+dependencies = [
+  "pandas",
+  "numpy",
+  "scikit-learn",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "ruff",
+  "pre-commit"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = ["pytest", "ruff", "pre-commit"]

@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+
+# Virtual envs
+.venv/
+venv/
+
+# UV cache
+.uv-cache/
+.cache/
+uv.lock.bak
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Test / coverage
+htmlcov/
+.coverage
+.pytest_cache/
+
+# Devcontainer artifacts
+.devcontainer/.env
+.devcontainer/.cache/
+.devcontainer/venv/

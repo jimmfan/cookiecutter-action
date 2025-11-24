@@ -1,0 +1,8 @@
+model:
+  name: example_model
+  type: classification
+  target: target
+
+training:
+  test_size: 0.2
+  random_state: 42

@@ -1,0 +1,5 @@
+features:
+  - name: feature_example
+    source: example
+    expected_dtype: float64
+    description: Example feature from template
